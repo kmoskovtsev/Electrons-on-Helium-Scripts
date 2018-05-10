@@ -1,0 +1,30 @@
+#!/bin/bash -login
+ 
+#PBS -l walltime=03:59:00
+#PBS -l nodes=1:gpus=1
+#PBS -l mem=2gb
+#PBS -M moskovts@msu.edu
+#PBS -m abe
+#PBS -t 1-40
+
+### load necessary modules, e.g.
+source /mnt/home/moskovts/config_modules
+source /mnt/home/moskovts/hoomd_env/bin/activate
+ 
+### change to the working directory where your code is located
+cd /mnt/home/moskovts/MD
+
+PBS_ARRAYID=5
+
+### call your executable
+AMP=8
+NOW=$(date +"%Y%m%d")
+P=8
+REG="freeze"
+GMIN=$(bc <<< "8 + 0.01*${PBS_ARRAYID}")
+GMAX=300
+GN=50
+
+python cryst_diff_A.py -A ${AMP} -p ${P} -a 1.0 --rx 20 --ry 40 --dt 0.005 --reg ${REG} --sf ${NOW}_${REG}_p${P}_A80batch_G8x_${GMAX} --Gmin ${GMIN} --Gmax ${GMAX} --GN ${GN}
+
+#qstat -f ${PBS_JOBID}

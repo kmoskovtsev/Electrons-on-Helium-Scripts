@@ -1,0 +1,30 @@
+#!/bin/bash -login
+ 
+#PBS -l walltime=80:00:00
+#PBS -l nodes=1:gpus=1
+#PBS -l mem=2gb
+#PBS -M moskovts@msu.edu
+#PBS -m abe
+
+### load necessary modules, e.g.
+source /mnt/home/moskovts/config_modules
+source /mnt/home/moskovts/hoomd_env/bin/activate
+ 
+### change to the working directory where your code is located
+cd /mnt/home/moskovts/MD
+ 
+### call your executable
+AMP=0.005
+P=32
+REG="ramp"
+EMIN=0.0004
+EMAX=0
+NE=20
+EAX="x"
+GAMMA=137
+CLMB="yclmb"
+NSTP=1600000
+
+python IVramp.py -A ${AMP} -p ${P} -a 1.0 --rx 16 --ry 32 --dt 0.01 --reg ${REG} --sf a32x32_p${P}_A${AMP}_E${EAX}_${EMIN}_${EMAX}_${CLMB}_G${GAMMA}_ramp --gamma ${GAMMA} --Emin ${EMIN} --Emax ${EMAX} --NE ${NE} --Eax ${EAX} --dst ${NSTP} --coulomb ${CLMB}
+
+#qstat -f ${PBS_JOBID}

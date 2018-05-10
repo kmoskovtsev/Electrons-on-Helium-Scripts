@@ -1,0 +1,20 @@
+#!/bin/bash -login
+ 
+#PBS -l walltime=02:00:00
+#PBS -l nodes=1:gpus=1
+#PBS -l mem=2gb
+ 
+#PBS -M moskovts@msu.edu
+#PBS -m abe
+
+ 
+ 
+### load necessary modules, e.g.
+source /mnt/home/moskovts/config_modules
+source /mnt/home/moskovts/hoomd_env/bin/activate
+ 
+### change to the working directory where your code is located
+cd /mnt/home/moskovts/MD
+ 
+### call your executable
+python test_diff_anstr.py -A 0 -p 40 -a 1.0 --rx 20 --ry 40 --dt 0.005 --reg random --sf test_diff_anisotropy_random

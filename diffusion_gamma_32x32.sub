@@ -1,0 +1,36 @@
+#!/bin/bash -login
+ 
+#PBS -l walltime=3:58:00
+#PBS -l nodes=1:gpus=1
+#### PBS -l nodes=1:ppn=1
+#PBS -l mem=2gb
+#PBS -M moskovts@msu.edu
+#PBS -m abe
+#PBS -t 0-49
+
+### load necessary modules, e.g.
+source /mnt/home/moskovts/config_modules
+source /mnt/home/moskovts/hoomd_env/bin/activate
+ 
+### change to the working directory where your code is located
+cd /mnt/home/moskovts/MD
+
+
+P=30
+AMP=0.0
+GMIN=135
+GMAX=155
+NGAMMA=50
+DG=$(bc <<< "(${GMAX} - ${GMIN})/(${NGAMMA} - 1)" -l)
+GIND=$(bc <<< "${PBS_ARRAYID}")
+GAMMA=$(bc <<< "${GMIN} + $GIND*$DG" -l)
+CLMB="yclmb"
+NSTP=1000000
+REG="crystal"
+INTGR="scatter"
+#INTGR="langevin"
+
+
+python diffArray_p.py -A ${AMP} -p ${P} -a 1.0 --rx 16 --ry 32 --dt 0.01 --reg ${REG} --sf a32x32_A${AMP}_${CLMB}_${INTGR}_${REG}_vsG${GMIN}-${GMAX} --gamma ${GAMMA} --dst ${NSTP} --coulomb ${CLMB} --integrator ${INTGR}
+
+#qstat -f ${PBS_JOBID}

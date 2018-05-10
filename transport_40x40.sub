@@ -1,0 +1,32 @@
+#!/bin/bash -login
+ 
+#PBS -l walltime=01:30:00
+#PBS -l nodes=1:gpus=1
+#PBS -l mem=2gb
+#PBS -M moskovts@msu.edu
+#PBS -m abe
+#PBS -t 0-10
+
+### load necessary modules, e.g.
+source /mnt/home/moskovts/config_modules
+source /mnt/home/moskovts/hoomd_env/bin/activate
+ 
+### change to the working directory where your code is located
+cd /mnt/home/moskovts/MD
+ 
+### call your executable
+AMP=$(bc <<< "0.05*${PBS_ARRAYID}")
+NOW=$(date +"%Y%m%d")
+P=10
+REG="thermal"
+EMIN=0
+EMAX=0.0002
+NE=10
+EAX="y"
+GAMMA=90
+CLMB="nclmb"
+NSTP=1000000
+
+python IVscript.py -A ${AMP} -p ${P} -a 1.0 --rx 20 --ry 40 --dt 0.005 --reg ${REG} --sf p${P}_A00_05_E${EAX}_${EMIN}_${EMAX}_${CLMB} --gamma ${GAMMA} --Emin ${EMIN} --Emax ${EMAX} --NE ${NE} --Eax ${EAX} --dst ${NSTP} --coulomb ${CLMB}
+
+#qstat -f ${PBS_JOBID}
