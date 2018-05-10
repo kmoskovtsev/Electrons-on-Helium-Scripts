@@ -13,23 +13,17 @@ There are two tools for structural analysis. Script `plotStructure.py` plots a p
 
 
 ## Compilation and running scripts
-To compile HOOMD, issue
+To run the scripts, one would need HOOMD-Blue and GSD installed, and the following modules active (instruction for MSU HPCC):
 
-`>source config_modules`
+`>module load GNU/4.9 CUDA/7.0 CMake/3.1.0 git/2.9.0 Python/2.7.2 NumPy/1.9.2 openblas/0.2.15`
 
-`>source compile_env`
-
-To run a hoomd script add modules by
-
-`>source config_modules`
-
-and activate the Python environment `hoomd_env` (that should be created first) by
+and activate the Python environment `hoomd_env` (that should be created first):
 
 `>source hoomd_env/bin/activate`
 
 
 # License
-Anyone is welcome to use this code. The formal license statement is included below.
+Anyone is welcome to use these scripts. The formal license statement is included below.
 
 Copyright (c) 2018 Kirill Moskovtsev
 
