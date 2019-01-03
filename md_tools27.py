@@ -508,9 +508,8 @@ def pair_correlation_from_gsd(filename, n_bins = (100, 100), frames =(0, -1)):
     return g
     
     
-def plot_pair_correlation(g, box, figsize = (8,8), cmap = "plasma", interp = 'none',\
+def plot_pair_correlation(g, box, figsize = (8,8), cmap = "plasma", interp = 'none', tickfont=18,\
                           nbins=50, alpha=1, fig=None, ax=None, origin_marker=True, minmax=None, imshow=False):
-    tickfont = 18
     if ax==None or fig==None:
         fig = plt.figure(figsize = figsize)
         ax = fig.add_subplot(111, aspect='equal', autoscale_on=False,
