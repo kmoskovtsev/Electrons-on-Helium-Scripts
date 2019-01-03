@@ -14,4 +14,4 @@ cd /mnt/home/moskovts/MD
 
 
 ### call your executable
-python plotStructure.py diff_data_new/a40x40_A0.5_yclmb_scatter_thermal_vsG135-160_1.7anneal --NP 10
+python plotStructure.py diff_data_new/a40x40_A0.5_yclmb_scatter_thermal_vsG130-150_1e7nstp --NP 2
